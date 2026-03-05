@@ -90,6 +90,100 @@ The first 4 rows of the Excel file contain:
 
 - Category titles
 - Extra formatting rows
+
+# If URLs Are in Column B
+
+If your Excel format is:
+
+| Column A        | Column B        | Column C |
+|-----------------|-----------------|----------|
+| Company Name    | Website URL     | (empty)  |
+
+Then:
+
+- Column B → Website (used for scraping)
+- Column A → Company name (leave unchanged)
+- Column C → Where emails should be saved
+
+---
+
+## Required Changes in Script
+
+### 1. Change URL Column (Read from Column B)
+
+Currently your script reads URLs from Column A:
+
+```python
+url = str(df.iloc[i, 0]).strip()
+```
+
+Change it to:
+
+```python
+url = str(df.iloc[i, 1]).strip()
+```
+
+Explanation:
+- Column B = index `1` in pandas (zero-based indexing)
+
+---
+
+### 2. Change Email Output Column
+
+Currently your script writes emails into Column B:
+
+```python
+ws.cell(row=row + 1, column=2, value=email)
+```
+
+But Column B contains URLs, so you must write emails into Column C instead:
+
+```python
+ws.cell(row=row + 1, column=3, value=email)
+```
+
+Explanation:
+- `column=3` = Column C in Excel (openpyxl is 1-based)
+
+---
+
+## Column Index Reference
+
+| Excel Column | pandas index | openpyxl column |
+|--------------|-------------|-----------------|
+| A            | 0           | 1               |
+| B            | 1           | 2               |
+| C            | 2           | 3               |
+
+---
+
+## Final Required Changes Summary
+
+Change:
+
+```python
+url = str(df.iloc[i, 0]).strip()
+```
+
+To:
+
+```python
+url = str(df.iloc[i, 1]).strip()
+```
+
+And change:
+
+```python
+ws.cell(row=row + 1, column=2, value=email)
+```
+
+To:
+
+```python
+ws.cell(row=row + 1, column=3, value=email)
+```
+
+That is all you need.
 - Non-URL content
 
 If the script starts at row 1, it will attempt to scrape invalid values and may fail or waste requests.
