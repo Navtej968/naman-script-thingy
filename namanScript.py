@@ -15,7 +15,7 @@ if sys.platform.startswith("win"):
 
 INPUT_FILE = "work sheet 2.xlsx"
 OUTPUT_FILE = "input_updated.xlsx"
-START_ROW = 1   # change if needed (1 = first row or row A)
+START_ROW = 1   # change if needed (1 = first row or row A) ye basically btata h ki konse row se emails shuru h or headers khtm h
 
 MAX_PAGES_CRAWL = 5
 CONCURRENT_REQUESTS = 50
@@ -172,7 +172,7 @@ async def main():
 
     targets = []
     for i in range(START_ROW - 1, len(df)):
-        url = str(df.iloc[i, 0]).strip()
+        url = str(df.iloc[i, 0]).strip() #this basically tells the script in which cloumn the urls are agr A me h to 0, B me h to 1 and so on
         if url.startswith("http"):
             targets.append((i, url))
 
@@ -196,4 +196,5 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
 
