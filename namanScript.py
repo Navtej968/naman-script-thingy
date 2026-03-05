@@ -15,7 +15,7 @@ if sys.platform.startswith("win"):
 
 INPUT_FILE = "work sheet 2.xlsx"
 OUTPUT_FILE = "input_updated.xlsx"
-START_ROW = 1   # change if needed (1 = first row)
+START_ROW = 1   # change if needed (1 = first row or row A)
 
 MAX_PAGES_CRAWL = 5
 CONCURRENT_REQUESTS = 50
@@ -192,7 +192,8 @@ async def main():
             print(f"({i}/{len(tasks)}) Row {row + 1}: {email}")
 
     wb.save(OUTPUT_FILE)
-    print(f"\n✅ Done! Saved to {OUTPUT_FILE}")
+    print(f"\n Done! Saved to {OUTPUT_FILE}")
 
 if __name__ == "__main__":
     asyncio.run(main())
+
